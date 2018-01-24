@@ -27,6 +27,8 @@ func (h *randomHaberdasher) MakeHat(ctx context.Context, size *example.Size) (*e
 
 func main() {
 	hook := statsd.NewStatsdServerHooks(LoggingStatter{os.Stderr})
-	server := example.NewHaberdasherServer(&randomHaberdasher{}, hook)
-	log.Fatal(http.ListenAndServe(":8080", server))
+	mux := http.NewServeMux()
+	mux.Handle("/twirp/", example.NewHaberdasherServer(&randomHaberdasher{}, hook))
+	mux.Handle("/browser/", http.FileServer(http.Dir("../../")))
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
