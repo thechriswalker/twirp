@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 const { ClientCompatMessage, Req, Resp, Empty } = require("./clientcompat_pb");
-const { createCompatServiceClient } = require("./clientcompat_pb_twirp.node.js")
+const { createCompatServiceClient } = require("./clientcompat_pb_twirp.js")
 const fs = require("fs");
+
+const useJSON = process.env.USE_JSON === "1";
 
 const write = (data) => {
     return new Promise((resolve) => {
@@ -23,7 +25,7 @@ const main = async () => {
         // find out what and where to call.
         const address = input.getServiceAddress();
         // create client
-        const client = createCompatServiceClient(address);
+        const client = createCompatServiceClient(address, useJSON);
         // make call
         let call;
         switch (input.getMethod()) {

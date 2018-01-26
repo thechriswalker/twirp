@@ -1,6 +1,6 @@
 // polyfill fetch
 require("whatwg-fetch")
-const { createHaberdasherClient } = require("./service_pb_twirp.browser.js")
+const { createHaberdasherClient } = require("./service_pb_twirp.js")
 const useJSON = /json/.test(window.location.search);
 const client = createHaberdasherClient("http://localhost:8080", useJSON);
 
